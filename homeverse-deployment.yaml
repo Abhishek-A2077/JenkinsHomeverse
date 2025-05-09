@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homeverse-deployment
+  labels:
+    app: homeverse
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: homeverse
+  template:
+    metadata:
+      labels:
+        app: homeverse
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "80"
+    spec:
+      containers:
+      - name: homeverse
+        image: abhisheka2077/homeverse-app:v1
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
